@@ -1,0 +1,48 @@
+
+CREATE TABLE clienti (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
+    indirizzo VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE ordini (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    data DATE NOT NULL,
+   	pagamento VARCHAR(10) NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clienti(id)
+);
+
+CREATE TABLE pizze (
+    nome VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE ingredienti (
+    nome VARCHAR(20) PRIMARY KEY,
+    pizza_nome VARCHAR(20) NOT NULL,
+    FOREIGN KEY (pizza_nome) REFERENCES pizze(nome)
+);
+
+CREATE TABLE clienti_ordini(
+	cliente_id INT NOT NULL,
+    ordine_id INT NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES clienti(id),
+    FOREIGN KEY (ordine_id) REFERENCES ordini(id)
+);
+
+CREATE TABLE ordini_pizze(
+	ordine_id INT NOT NULL,
+    pizza_nome VARCHAR(20) NOT NULL,
+    quantita INT NOT NULL,
+    prezzo DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (ordine_id) REFERENCES ordini(id),
+    FOREIGN KEY (pizza_nome) REFERENCES pizze(nome)
+);
+
+CREATE TABLE pizze_ingredienti(
+	pizza_nome VARCHAR(20) NOT NULL,
+    ingrediente_nome VARCHAR(20) NOT NULL,
+    FOREIGN KEY (pizza_nome) REFERENCES pizze(nome),
+    FOREIGN KEY (ingrediente_nome) REFERENCES ingredienti(nome)
+);

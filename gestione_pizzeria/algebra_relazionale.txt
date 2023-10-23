@@ -1,0 +1,23 @@
+π nome, cognome (σ(clienti.id = ordini.cliente_id)(clienti ⨝ ordini))
+
+π nome, cognome (σ(clienti.id = ordini.cliente_id ∧ ordini.data = dataSpecifica)(clienti ⨝ ordini))
+
+π nome, cognome (σ(clienti.id = ordini.cliente_id ∧ ordini.id = ordini_pizze.ordine_id 
+∧ ordini.data = dataSpecifica ∧ pizza_nome = pizzaSpecifica)((clienti)⨝(ordini ⨝ ordini_pizze)))
+
+π nome, cognome (σ(clienti.id = ordini.cliente_id ∧ ordini.id = ordini_pizze.ordine_id 
+∧ ordini.data = dataSpecifica ∧ ordini_pizze.pizza_nome = pizzaSpecifica 
+∧ ordini.pagamento = cartaDiCredito)((clienti)⨝(ordini ⨝ ordini_pizze)))
+
+π nome, cognome (σ(clienti.id = ordini.cliente_id ∧ ordini.id = ordini_pizze.ordine_id 
+∧ ordini.data = dataSpecifica ∧ ordini_pizze.pizza_nome = pizzaSpecifica 
+∧ ordini.pagamento = cartaDiCredito )((clienti)⨝(ordini ⨝((ordini_pizze) ⨝(pizze_ingredienti)))))
+
+π nome, cognome (σ(numOrdini = maxOrdini)(clienti ⨝ γ(clienti.id; COUNT(*) as numOrdini)(ordini)))
+
+π nome, cognome (σ(numOrdini = maxOrdini)(σ(clienti.id = ordini.cliente_id 
+∧ ordini.data = dataSpecifica)(clienti ⨝ ordini)) ⨝ γ(clienti.id; COUNT(*) as numOrdini)(ordini))
+
+π nome, cognome (σ(numOrdini = maxOrdini)(σ(clienti.id = ordini.cliente_id ∧ ordini.id = ordini_pizze.ordine_id 
+∧ ordini.data = dataSpecifica ∧ pizza_nome = pizzaSpecifica)((clienti)⨝(ordini ⨝ ordini_pizze))) 
+⨝ γ(clienti.id; COUNT(*) as numOrdini)(ordini))
