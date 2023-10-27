@@ -1,39 +1,109 @@
-SELECT nome, cognome
-FROM clienti 
-JOIN clienti_ordini co ON clienti.id = clienti_ordini.cliente_id;
-
-SELECT nome, cognome
-FROM clienti 
-JOIN clienti_ordini co ON clienti.id = clienti_ordini.cliente_id
-JOIN ordini o ON clienti_ordini.ordine_id = ordini.id
-WHERE ordini.data = dataSpecifica;
-
-SELECT nome, cognome
-FROM clienti 
-JOIN clienti_ordini co ON clienti.id = clienti_ordini.cliente_id
-JOIN ordini o ON clienti_ordini.ordine_id = ordini.id
-JOIN ordini_pizze ON ordini.id = ordini_pizze.ordine_id
-JOIN pizze ON ordini_pizze.pizza_nome = pizze.nome
-WHERE ordini.data = dataSpecifica
-AND pizze.nome = pizzaSpecifica;
-
-SELECT nome, cognome
-FROM clienti 
-JOIN clienti_ordini co ON clienti.id = clienti_ordini.cliente_id
-JOIN ordini o ON clienti_ordini.ordine_id = ordini.id
-JOIN ordini_pizze ON ordini.id = ordini_pizze.ordine_id
-JOIN pizze ON ordini_pizze.pizza_nome = pizze.nome
-JOIN pizze_ingredienti ON pizze.nome = pizze_ingredienti.pizza_nome
-JOIN ingredienti ON pizze_ingredienti.ingrediente_nome = ingredienti.nome
-WHERE ordini.data = dataSpecifica
-AND pizze.nome = pizzaSpecifica
-AND ordini.pagamento = 'cartaDiCredito'
-AND ingredienti.nome = ingredienteSpecifica;
+SELECT
+  c.nome, c.cognome
+FROM 
+  clienti AS c JOIN clienti_ordini AS co ON c.id = co.cliente_id;
 
 
-SELECT clienti.nome, clienti.cognome, COUNT(ordini.id) AS NumeroOrdini
-FROM clienti 
-JOIN ordini o ON clienti.id = ordini.cliente_id
-GROUP BY cleinti.id, clienti.nome, clienti.cognome
-ORDER BY NumeroOrdini DESC
+SELECT 
+  c.nome, c.cognome
+FROM 
+  clienti AS c JOIN clienti_ordini co ON c.id = co.cliente_id
+  JOIN ordini AS o ON co.ordine_id = o.id
+  WHERE o.data = '';
+
+
+SELECT 
+  c.nome, c.cognome
+FROM 
+  clienti AS c JOIN clienti_ordini AS co ON c.id = co.cliente_id
+  JOIN ordini AS o ON c.ordine_id = o.id
+  JOIN ordini_pizze AS op ON o.id = op.ordine_id
+  JOIN pizze AS p ON op.pizza_nome = p.nome
+WHERE 
+  o.data = ''
+  AND p.nome = '';
+
+
+SELECT 
+  c.nome, c.cognome
+FROM 
+  clienti AS c JOIN clienti_ordini AS co ON c.id = co.cliente_id
+  JOIN ordini AS o ON c.ordine_id = o.id
+  JOIN ordini_pizze As op ON o.id = op.ordine_id
+  JOIN pizze AS p ON op.pizza_nome = p.nome
+  JOIN pizze_ingredienti AS pi ON p.nome = pi.pizza_nome
+WHERE 
+  o.data = ''
+  AND p.nome = '';
+  AND o.pagamento = 'cartaDiCredito'
+
+
+SELECT 
+  c.nome, c.cognome
+FROM 
+  clienti AS c JOIN clienti_ordini AS co ON c.id = co.cliente_id
+  JOIN ordini AS o ON c.ordine_id = o.id
+  JOIN ordini_pizze AS op ON o.id = op.ordine_id
+  JOIN pizze AS p ON op.pizza_nome = p.nome
+  JOIN pizze_ingredienti AS pi ON p.nome = pi.pizza_nome
+  JOIN ingredienti AS i ON pi.ingrediente_nome = i.nome
+WHERE 
+  o.data = ''
+  AND p.nome = '';
+  AND o.pagamento = 'cartaDiCredito'
+  AND i.nome = '';
+
+
+SELECT 
+  c.nome, c.cognome, COUNT(o.id) AS nOrdini
+FROM 
+  clienti AS c
+  JOIN ordini AS o ON c.id = o.cliente_id
+GROUP BY c.nome, c.cognome
+ORDER BY nOrdini DESC
 LIMIT 1;
+
+
+SELECT 
+  c.nome, c.cognome, COUNT(o.id) AS nOrdini
+FROM 
+  clienti AS c
+  JOIN ordini AS o ON c.id = o.cliente_id
+WHERE
+  o.data = ''
+GROUP BY c.nome, c.cognome
+ORDER BY nOrdini DESC
+LIMIT 1;
+
+
+SELECT 
+  c.nome, c.cognome, COUNT(o.id) AS nOrdini
+FROM 
+  clienti AS c
+  JOIN ordini AS o ON c.id = o.cliente_id
+  JOIN ordini_pizze AS op ON c.id = op.cliente_id
+  JOIN pizze AS p ON op.pizza_nome = o.nome
+WHERE
+  o.data = ''
+  AND p.nome = ''
+GROUP BY c.nome, c.cognome
+ORDER BY nOrdini DESC
+LIMIT 1;
+
+SELECT
+  p.id, p.nome, COUNT(o.id) as nOrdini
+FROM
+  ordini AS o JOIN ordini_pizze AS op ON o.id = op.ordini_id
+  JOIN pizze AS p ON op.pizza_nome = p.nome
+GROUP BY p.id, p.nome;
+
+
+SELECT
+  p.id, p.nome, COUNT(o.id) as nOrdini
+FROM
+  ordini AS o JOIN ordini_pizze AS op ON o.id = op.ordini_id
+  JOIN pizze AS p ON op.pizza_nome = p.nome
+WHERE
+  o.data = ''
+GROUP BY p.id, p.nome;
+
