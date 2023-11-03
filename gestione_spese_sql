@@ -1,16 +1,95 @@
 L'esercizio chiede di creare un database delle spese personali.
+
+ANALISI:
 -ogni spesa ha un id, una data, una descrizione e un importo
 -ogni categoria ha un id, un nome
 -ogni tag ha un id, un nome
--ogni spesa può appartienere a più categorie
+-ogni spesa può appartienere solo a un categorie
 -ogni spesa può appartienere a più tags
 -ogni categoria può avere più spese
 -ogni tag può avere più spese
 
-analisi logica:
+
+ANALISI LOGICA:
 spese(PK: id, descrizione, data, importo)
 categorie(PK: id, nome)
 tags(PK:id, nome)
 spese_categorie(FK: id_spesa, FK: id_categoria)
 spese_tags(FK: id_spesa, FK: id_tag)
+
+
+ANALISI FISICA:
+CREATE TABLE spese(
+	  id INT PRIMARY KEY AUTO_INCREMENT,
+    id_categoria INT NOT NULL,
+    descrizione VARCHAR(100),
+    data DATETIME NOT NULL,
+    importo DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categorie(id)
+);
+
+CREATE TABLE categorie(
+	  id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE tags(
+	  id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE spese_tags(
+	  id_spesa INT NOT NULL,
+    id_tag INT NOT NULL,
+    FOREIGN KEY (id_spesa) REFERENCES spese(id),
+    FOREIGN KEY (id_tag) REFERENCES tags(id)
+);
+
+
+QUERY DI CREAZIONE (CREATE):
+inserire una nuova spesa
+inserire una nuova categoria
+inserire un nuovo tag
+inserire una nuova spesa con una nuova categoria e nuovi tags
+inserire una nuova spesa con una categoria e tags già esistenti
+inserire una nuova spesa con una categoria esistente e nuovi tags
+inserire una nuova spesa con una categoria esistente e tags già esistenti
+
+INSERT INTO spese (descrizione, data, importo) -- id=1
+VALUES ('spesa di prova', '2023-11-03', 50.00);
+
+INSERT INTO categorie (nome) -- id=1
+VALUES ('alimentari');
+
+INSERT INTO tags (nome) -- id=1
+VALUES ('supermercato');
+
+INSERT INTO categoria (nome) --id=2
+VALUES ('viaggi');
+INSERT INTO Tags (nome) --id=2
+VALUES ('vacanza');
+INSERT INTO spese (descrizione, data, importo) --id=2
+VALUES ('vacanza in montagna', '2023-12-15', 300.00);
+INSERT INTO spese_categorie(id_spesa, id_categoria)
+VALUES (2,2);
+INSERT INTO spese_tags (id_spesa, id_tag)
+VALUES (2, 2);
+
+
+INSERT INTO spese (descrizione, data, importo) --id=3
+VALUES ('cena al ristorante', '2023-11-15', 60.00);
+INSERT INTO spese_categorie(id_spesa, id_categoria)
+VALUES (3,1);
+INSERT INTO spese_tags (id_spesa, id_tag)
+VALUES (3, 2);
+
+INSET INTO tags(nome) -- id=3
+VALUES ('hobby')
+INSERT INTO spese (descrizione, data, importo) --id=4
+VALUES ('nuova borsa', '2023-11-10', 100.00);
+INSERT INTO spese_categorie(id_spesa, id_categoria)
+VALUES (4,1);
+INSERT INTO spese_tags (id_spesa, id_tag)
+VALUES (4, 3);
+
 
