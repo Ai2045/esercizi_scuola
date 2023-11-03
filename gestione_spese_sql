@@ -7,4 +7,10 @@ L'esercizio chiede di creare un database delle spese personali.
 -ogni categoria può avere più spese
 -ogni tag può avere più spese
 
+analisi logica:
+spese(PK: id, descrizione, data, importo)
+categorie(PK: id, nome)
+tags(PK:id, nome)
+spese_categorie(FK: id_spesa, FK: id_categoria)
+spese_tags(FK: id_spesa, FK: id_tag)
 
