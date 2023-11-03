@@ -4,45 +4,44 @@ ANALISI:
 -ogni spesa ha un id, una data, una descrizione e un importo
 -ogni categoria ha un id, un nome
 -ogni tag ha un id, un nome
--ogni spesa può appartienere solo a un categorie
+-ogni spesa può appartienere solo a una categoria
 -ogni spesa può appartienere a più tags
 -ogni categoria può avere più spese
 -ogni tag può avere più spese
 
 
 ANALISI LOGICA:
-spese(PK: id, descrizione, data, importo)
+spese(PK: id, descrizione, data, importo, FK: id_categoria)
 categorie(PK: id, nome)
 tags(PK:id, nome)
-spese_categorie(FK: id_spesa, FK: id_categoria)
 spese_tags(FK: id_spesa, FK: id_tag)
 
 
 ANALISI FISICA:
 CREATE TABLE spese(
-	  id INT PRIMARY KEY AUTO_INCREMENT,
-    id_categoria INT NOT NULL,
-    descrizione VARCHAR(100),
-    data DATETIME NOT NULL,
-    importo DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (id_categoria) REFERENCES categorie(id)
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    	id_categoria INT NOT NULL,
+   	descrizione VARCHAR(100),
+    	data DATETIME NOT NULL,
+    	importo DECIMAL(10, 2) NOT NULL,
+    	FOREIGN KEY (id_categoria) REFERENCES categorie(id)
 );
 
 CREATE TABLE categorie(
-	  id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(20) NOT NULL
+	id INT PRIMARY KEY AUTO_INCREMENT,
+   	nome VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE tags(
-	  id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(20) NOT NULL
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    	nome VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE spese_tags(
-	  id_spesa INT NOT NULL,
-    id_tag INT NOT NULL,
-    FOREIGN KEY (id_spesa) REFERENCES spese(id),
-    FOREIGN KEY (id_tag) REFERENCES tags(id)
+	id_spesa INT,
+    	id_tag INT,
+    	FOREIGN KEY (id_spesa) REFERENCES spese(id),
+    	FOREIGN KEY (id_tag) REFERENCES tags(id)
 );
 
 
@@ -55,8 +54,8 @@ inserire una nuova spesa con una categoria e tags già esistenti
 inserire una nuova spesa con una categoria esistente e nuovi tags
 inserire una nuova spesa con una categoria esistente e tags già esistenti
 
-INSERT INTO spese (descrizione, data, importo) -- id=1
-VALUES ('spesa di prova', '2023-11-03', 50.00);
+INSERT INTO spese (descrizione, data, importo, id_categoria) -- id=1
+VALUES ('spesa di prova', '2023-11-03', 50.00, 1);
 
 INSERT INTO categorie (nome) -- id=1
 VALUES ('alimentari');
@@ -68,28 +67,186 @@ INSERT INTO categoria (nome) --id=2
 VALUES ('viaggi');
 INSERT INTO Tags (nome) --id=2
 VALUES ('vacanza');
-INSERT INTO spese (descrizione, data, importo) --id=2
-VALUES ('vacanza in montagna', '2023-12-15', 300.00);
-INSERT INTO spese_categorie(id_spesa, id_categoria)
-VALUES (2,2);
+INSERT INTO spese (descrizione, data, importo, id_categoria) --id=2
+VALUES ('vacanza in montagna', '2023-12-15', 300.00, 2);
 INSERT INTO spese_tags (id_spesa, id_tag)
 VALUES (2, 2);
 
-
-INSERT INTO spese (descrizione, data, importo) --id=3
-VALUES ('cena al ristorante', '2023-11-15', 60.00);
-INSERT INTO spese_categorie(id_spesa, id_categoria)
-VALUES (3,1);
+INSERT INTO spese (descrizione, data, importo, id_categoria) --id=3
+VALUES ('cena al ristorante', '2023-11-15', 60.00, 3);
+INSERT INTO categorie(nome) -- id=3
+VALUES ('ristorante')
 INSERT INTO spese_tags (id_spesa, id_tag)
 VALUES (3, 2);
 
 INSET INTO tags(nome) -- id=3
 VALUES ('hobby')
-INSERT INTO spese (descrizione, data, importo) --id=4
-VALUES ('nuova borsa', '2023-11-10', 100.00);
-INSERT INTO spese_categorie(id_spesa, id_categoria)
-VALUES (4,1);
+INSERT INTO spese (descrizione, data, importo, id_categoria) --id=4
+VALUES ('nuova borsa', '2023-11-10', 100.00, 2);
 INSERT INTO spese_tags (id_spesa, id_tag)
 VALUES (4, 3);
 
+INSERT INTO spese (descrizione, data, importo, id_categoria) --id=5
+VALUES ('vacanza al mare', '2023-8-10', 500.00, 2);
+INSERT INTO spese_tags (id_spesa, id_tag)
+VALUES (5, 2);
 
+QUERY DI CANCELLAZIONE (DELETE):
+cancellare una spesa
+cancellare una categoria
+cancellare un tag
+cancellare una spesa con una categoria e tags già esistenti
+
+DELETE FROM spese
+WHERE id = 1
+
+DELETE FROM categorie
+WHERE id = 1
+
+DELETE FROM tags
+WHERE id = 1
+
+DELETE FROM spese -- mysql cancella automaticamente anche le relazioni tipo-spese_tags
+WHERE id = 1
+
+PROIEZIONI (SELECT):
+Seleziona tutti i campi dalla tabella “spese”.
+Seleziona solo il nome della categoria dalla tabella “categorie”.
+Ottieni una lista delle descrizioni delle spese dalla tabella “spese”.
+Quali sono i nomi dei tag dalla tabella “tags”?
+Mostra l’importo e la data di tutte le spese.
+Quali sono gli ID delle spese dalla tabella “spese”?
+Ottieni una lista di tutte le categorie dalla tabella “categorie”.
+Mostra solo le date delle spese dalla tabella “spese”.
+
+
+SELECT *
+FROM spese
+
+SELECT nome
+FROM categorie
+
+SELECT descrizione
+FROM spese
+
+SELECT nome
+FROM tags
+
+SELECT importo, data
+FROM spese
+
+SELECT id
+FROM spese
+
+SELECT *
+FROM categorie
+
+SELECT data
+FROM spese
+
+SELEZIONI SEMPLICI (WHERE):
+Seleziona tutte le spese con un importo maggiore di $100.
+Quali spese sono state effettuate il 15 ottobre 2023?
+Mostra le spese nella categoria “Alimentari”.
+Quali spese sono state effettuate prima del 1º gennaio 2023?
+Seleziona le spese con una descrizione che contiene la parola “ristorante”.
+Quali spese sono state fatte con un tag chiamato “Viaggio”?
+Mostra le spese effettuate da un’utente specifico (supponiamo un campo “utente_id” nella tabella “spese”).
+
+SELECT id, descrizione, data, importo
+FROM spese
+WHERE importo > $100
+
+SELECT id, descrizione, data, importo
+FROM spese
+WHERE data = '15-10-2023'
+
+SELECT id, descrizione, data, importo
+FROM spese, categorie
+WHERE spese.id_categoria = categorie.id
+	AND categorie.nome = 'Alimentari'
+
+SELECT id, descrizione, data, importo
+FROM spese
+WHERE data < '01-01-2023'
+
+SELECT id, descrizione, data, importo
+FROM spese
+WHERE descrizione LIKE '%ristorante%'
+
+SELECT id, descrizione, data, importo
+FROM spese, tags, spese_tags
+WHERE spese.id = spese_tags.id_spesa
+	AND tags.id = spese_tags.id_tag
+	AND tag.nome = 'Viaggio'
+
+SELECT id, descrizione, data, importo
+FROM spese, utente
+WHERE spese.utente_id = utente.id
+	AND utente.nome = 'Pinco Pallo'
+
+SELEZIONI COMPLESSE (JOIN):
+Quali spese sono state fatte il 2 marzo 2023 e appartengono alla categoria “Intrattenimento”?
+Elencare le spese effettuate con il tag “Viaggio” in una categoria diversa da “Vacanze”.
+Mostra le spese con un importo superiore a $50 fatte dopo il 1º gennaio 2023 
+appartenenti alla categoria “Alimentari”.
+Quali spese hanno lo stesso tag di un’altra spesa ma un importo diverso?
+Elencare le spese con importi superiori alla media delle spese.
+Quali spese appartengono a categorie con almeno 10 spese registrate?
+Mostra le spese che non hanno tag associati.
+
+SELECT 
+	id, descrizione, data, importo
+FROM
+	spese JOIN categorie ON spese.id_categoria = categorie.id
+WHERE
+	spese.data = '02-03-2023'
+	AND categorie.nome = 'Intrattenimento'
+
+
+SELECT 
+	id, descrizione, data, importo
+FROM
+	spese JOIN categorie ON spese.id_categoria = categorie.id
+	JOIN spese_tags ON spese.id = spese_tags.id_spesa
+	JOIN tags ON tags.id = spese_tags.id_tag
+WHERE
+	tag.nome = 'Viaggio'
+	AND categoria <> 'Vacanze'
+
+
+SELECT 
+	id, descrizione, data, importo
+FROM
+	spese JOIN categorie ON spese.id_categoria = categorie.id
+WHERE
+	spese.importo > $50
+	AND spese.data > '01-01-2023'
+	AND categorie.nome = 'Alimentari'
+
+SELECT
+	id, descrizione, data, importo
+FROM
+	spese AS A JOIN spese_tags ON A.id = spese_tags.id_spesa
+	JOIN tags ON tags.id = spese_tags.id_tag
+	JOIN spese AS B ON B.id = spese_tags.id_spesa
+WHERE
+	A.id <> B.id
+	AND A.importo <> B.importo
+
+SELECT
+	id, descrizione, data, importo, AVG(spese.importo) AS media_spese
+FROM
+	spese
+WHERE
+	spese.importo > media_spese
+
+NON SO FARE
+
+SELECT
+	id, descrizione, data, importo
+FROM
+	spese LEFT JOIN spese_tags ON spese.id = spese_tags.id_spesa
+WHERE
+	spese_tags.id_spesa IS NULL
+	
