@@ -1,1 +1,10 @@
+L'esercizio chiede di creare un database delle spese personali.
+-ogni spesa ha un id, una data, una descrizione e un importo
+-ogni categoria ha un id, un nome
+-ogni tag ha un id, un nome
+-ogni spesa può appartienere a più categorie
+-ogni spesa può appartienere a più tags
+-ogni categoria può avere più spese
+-ogni tag può avere più spese
+
 
