@@ -91,6 +91,53 @@ VALUES ('vacanza al mare', '2023-8-10', 500.00, 2);
 INSERT INTO spese_tags (id_spesa, id_tag)
 VALUES (5, 2);
 
+QUERY DI MODIFICA (UPDATE):
+modificare la descrizione di una spesa
+modificare la categoria di una spesa
+modificare il tag di una spesa
+modificare la categoria e il tag di una spesa
+modificare la descrizione, la categoria e il tag di una spesa
+modificare la descrizione e la categoria di una spesa
+modificare la descrizione e il tag di una spesa
+
+UPDATE spese
+SET descrizione = 'Nuova descrizione'
+WHERE id = 1
+
+UPDATE spese
+SET id_categoria = 2
+WHERE id = 1
+
+UPDATE spese_tags
+SET id_tag = 2
+WHERE id_spese = 1
+
+UPDATE spese
+SET id_categoria = 3
+WHERE id = 2
+UPDATE spese_tags
+SET id_tag = 4
+WHERE id_spese = 2
+
+UPDATE spese
+SET id_categoria = 1 AND descrizione = 'Nuova descrizione'
+WHERE id = 3
+UPDATE spese_tags
+SET id_tag = 1
+WHERE id_spese = 3
+
+UPDATE spese
+SET id_categoria = 2 AND descrizione = 'Nuova descrizione'
+WHERE id = 4
+
+UPDATE spese
+SET descrizione = 'Nuova descrizione'
+WHERE id = 5
+UPDATE spese_tags
+SET id_tag = 3
+WHERE id_spese = 5
+
+
 QUERY DI CANCELLAZIONE (DELETE):
 cancellare una spesa
 cancellare una categoria
