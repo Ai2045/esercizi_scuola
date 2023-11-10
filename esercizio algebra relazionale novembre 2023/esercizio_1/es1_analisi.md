@@ -16,3 +16,17 @@ b. Risolvere in algebra relazionale le seguenti interrogazioni:
 π nomeR (σ editore = 'Einaudi' ∧ nomeR LIKE 'G%')
 π editore (riviste ⨝ riviste.codR = articoli.codR (σ argomento ≠ 'IA' (articoli))))
 π nomeR (riviste ⨝ riviste.codR = articoli.codR(σ argomento = 'motociclismo' ∧ argomento = 'automobilismo'))
+
+CREATE TABLE riviste(
+	  codR CHAR(10) PRIMARY KEY,
+    nomeR VARCHAR(20) NOT NULL,
+    editore VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE articoli(
+	  codA CHAR(10) PRIMARY KEY,
+    codR VARCHAR(10) NOT NULL,
+    titolo VARCHAR(20) NOT NULL,
+    argomento VARCHAR(50) NOT NULL,
+    FOREIGN KEY (codR) REFERENCES riviste(codR)
+);
