@@ -45,12 +45,72 @@ CREATE TABLE prenotazioni(
     FOREIGN KEY (bID) REFERENCES barche(bID)
 );
 
+
 SELECT 
 	DISTINCT v.vNome
 FROM
-	VELISTI v, BARCHE b, PRENOTAZIONI p
+	velisti v, barche b, prenotazioni p
 WHERE
 	b.colore IN ('rosso', 'verde')
 	AND b.bID = p.bID
 	AND p.vID = v.vID;
+ 
+
+SELECT 
+	DISTINCT bNome
+FROM 
+	barche b, prenotazioni p
+WHERE 
+	p.data >= '2023-11-01' AND p.data <= '2023-11-30'
+	AND b.bID = p.bID;
+ 
+
+SELECT 
+	vID, vNome, esperienza, dataNascita
+FROM
+	velisti
+WHERE 
+	(DATEDIFF(CURDATE(), dataNascita) > 18*365) 
+ 	AND esperienza = 'base';
+  
+
+SELECT 
+	DISTINCT v.vNome
+FROM
+	velisti v, barche b, prenotazioni p
+WHERE 
+	b.colore = 'giallo'
+	AND p.data >= '2023-04-01' 
+  	AND p.data <= '2023-04-30'
+	AND b.bID = p.bID
+	AND v.vID = p.vID;
+
+
+SELECT 
+	DISTINCT b.bNome
+FROM
+	barche b, prenotazioni p, velisti v
+WHERE
+	p.vID = v.vID
+	AND v.esperienza = 'senior'
+	AND b.bID = p.bID;
+
+SELECT 
+	DISTINCT v.vID
+FROM 
+	velisti v
+WHERE 
+	v.vID NOT IN (
+ 		SELECT 
+   			p.vID 
+      		FROM 
+			prenotazioni p, BARCHE b 
+   		WHERE 
+     			p.bID = b.bID 
+			AND b.colore = 'rosso');
+
+ 
+
+
+
 
