@@ -34,3 +34,63 @@ CREATE TABLE cartelloni(
     FOREIGN KEY(cods) REFERENCES spettacoli(codS)
 );
 
+
+SELECT 
+	DISTINCT compagnia
+FROM 
+	cartelloni
+	JOIN spettacoli ON cartelloni.codS = spettacoli.codS
+WHERE
+	data = '2023-11-02' 
+ 	AND data != '2023-11-03';
+
+
+SELECT 
+	titolo
+FROM 
+	spettacoli
+WHERE
+	compagnia = 'Bolle and friends';
+
+
+SELECT 
+	titolo
+FROM 
+	spettacoli
+	JOIN cartelloni ON spettacoli.codS = cartelloni.codS
+WHERE 
+	nomeTeatro = 'Grande' 
+ 	AND durata > '02:00:00';
+
+
+SELECT 
+	DISTINCT compagnia
+FROM 
+	spettacoli
+	JOIN cartelloni ON spettacoli.codS = cartelloni.codS
+WHERE
+	nomeTeatro = 'Grande' 
+ 	AND data BETWEEN '2023-10-01' 
+  	AND '2023-10-31';
+
+
+SELECT 
+	titolo, compagnia, durata, data, oraInizio
+FROM 
+	spettacoli
+	JOIN cartelloni ON spettacoli.codS = cartelloni.codS
+WHERE 
+	nomeTeatro = 'Arcimboldi' 
+ 	AND data BETWEEN '2023-12-01' 
+  	AND '2023-12-31';
+
+
+SELECT 
+	DISTINCT nomeTeatro
+FROM 
+	cartelloni
+	JOIN spettacoli ON cartelloni.codS = spettacoli.codS
+WHERE 
+	titolo = 'Il lago dei cigni';
+
+
