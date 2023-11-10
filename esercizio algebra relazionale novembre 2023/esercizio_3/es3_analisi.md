@@ -11,6 +11,8 @@ b. Risolvere in algebra relazionale le seguenti interrogazioni:
 5) Stampare il calendario del teatro “Arcimboldi” per il prossimo mese di dicembre
 6) Stampare il nome dei teatri nei quali è stato messo in scena lo spettacolo “il lago dei cigni”
 
+osservazione: non conviene tenere separato data e oraInizio
+              meglio CARTELLONI(data, nomeTeatro, codS)
 π compagnia (spettacoli ⨝ spettacoli.codS = cartelloni.codS (σ data = '02-11-2023' ∧ data ≠ '03-11-2023'(cartelloni)))
 π titolo (σ compagnia = 'Bolle and friends' )
 π titolo ((σ durata > 120 (spettacoli)) ⨝ spettacoli.codS = cartelloni.codS (σ nomeTeatro = 'Grande' (cartelloni)))
