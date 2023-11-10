@@ -17,8 +17,9 @@ b. Risolvere in algebra relazionale le seguenti interrogazioni:
 π editore (riviste ⨝ riviste.codR = articoli.codR (σ argomento ≠ 'IA' (articoli))))
 π nomeR (riviste ⨝ riviste.codR = articoli.codR(σ argomento = 'motociclismo' ∧ argomento = 'automobilismo'))
 
+
 CREATE TABLE riviste(
-	  codR CHAR(10) PRIMARY KEY,
+	codR CHAR(10) PRIMARY KEY,
     nomeR VARCHAR(20) NOT NULL,
     editore VARCHAR(20) NOT NULL
 );
@@ -30,3 +31,51 @@ CREATE TABLE articoli(
     argomento VARCHAR(50) NOT NULL,
     FOREIGN KEY (codR) REFERENCES riviste(codR)
 );
+
+
+SELECT
+	riviste.codR, riviste.nomeR
+FROM
+	riviste, articoli
+WHERE
+	argomento = 'motociclismo'
+ 	AND riviste.codR = articoli.codR
+
+
+SELECT 
+	articoli.CodA, articoli.Titolo
+FROM 
+	riviste, articoli
+WHERE 
+	riviste.NomeR = 'Focus'
+	AND riviste.CodR = articoli.CodR
+	AND argomento = 'Intelligenza Artificiale';
+
+
+SELECT 
+	riviste.NomeR
+FROM 
+	riviste
+WHERE 
+	riviste.Editore = 'Einaudi'
+	AND riviste.NomeR LIKE 'G%';
+
+
+SELECT
+	DISTINCT riviste.Editore
+FROM
+	riviste
+	LEFT JOIN articoli ON riviste.CodR = articoli.CodR
+WHERE 
+	articoli.Argomento != 'Intelligenza Artificiale' 
+ 	OR articoli.Argomento IS NULL;
+
+
+SELECT
+	DISTINCT riviste.NomeR
+FROM
+	riviste, articoli
+WHERE
+	riviste.CodR = articoli.CodR
+	AND (argomento = 'motociclismo' OR argomento = 'automobilismo');
+
