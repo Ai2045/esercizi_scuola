@@ -44,3 +44,13 @@ CREATE TABLE prenotazioni(
     FOREIGN KEY (vID) REFERENCES velisti(vID),
     FOREIGN KEY (bID) REFERENCES barche(bID)
 );
+
+SELECT 
+	DISTINCT v.vNome
+FROM
+	VELISTI v, BARCHE b, PRENOTAZIONI p
+WHERE
+	b.colore IN ('rosso', 'verde')
+	AND b.bID = p.bID
+	AND p.vID = v.vID;
+
