@@ -43,39 +43,39 @@ WHERE
 
 
 SELECT 
-	articoli.CodA, articoli.Titolo
+	articoli.codA, articoli.titolo
 FROM 
 	riviste, articoli
 WHERE 
-	riviste.NomeR = 'Focus'
-	AND riviste.CodR = articoli.CodR
+	riviste.nomeR = 'Focus'
+	AND riviste.codR = articoli.codR
 	AND argomento = 'Intelligenza Artificiale';
 
 
 SELECT 
-	riviste.NomeR
+	riviste.nomeR
 FROM 
 	riviste
 WHERE 
-	riviste.Editore = 'Einaudi'
-	AND riviste.NomeR LIKE 'G%';
+	riviste.editore = 'Einaudi'
+	AND riviste.nomeR LIKE 'G%';
 
 
 SELECT
-	DISTINCT riviste.Editore
+	DISTINCT riviste.editore
 FROM
 	riviste
-	LEFT JOIN articoli ON riviste.CodR = articoli.CodR
+	LEFT JOIN articoli ON riviste.codR = articoli.codR
 WHERE 
-	articoli.Argomento != 'Intelligenza Artificiale' 
- 	OR articoli.Argomento IS NULL;
+	articoli.argomento != 'Intelligenza Artificiale' 
+ 	OR articoli.argomento IS NULL;
 
 
 SELECT
-	DISTINCT riviste.NomeR
+	DISTINCT riviste.nomeR
 FROM
 	riviste, articoli
 WHERE
-	riviste.CodR = articoli.CodR
+	riviste.codR = articoli.codR
 	AND (argomento = 'motociclismo' OR argomento = 'automobilismo');
 
