@@ -23,3 +23,24 @@ b. Risolvere in algebra relazionale le seguenti interrogazioni:
 π bNome ((barche ⨝ barche.bID = prenozioni.bID (prenotazioni))⨝ velisti.vID = prenozioni.vID (σ esperienza = 'senior'	(velisti)))
 
 π vID ((velisti ⨝ velisti.vID = prenotazioni.vID (prenotazioni))⨝ barche.bID = prenozioni.bID (σ colore ≠ 'rosso' (barche)))
+
+CREATE TABLE barche(
+	  bID INT PRIMARY KEY AUTO_INCREMENT,
+    bNome VARCHAR(20) NOT NULL,
+    colore VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE velisti(
+	  vID INT PRIMARY KEY AUTO_INCREMENT,
+    vNome VARCHAR(50) NOT NULL,
+    esperienza VARCHAR(15) NOT NULL,
+    dataNascita DATE NOT NULL
+);
+
+CREATE TABLE prenotazioni(
+	  vID INT NOT NULL,
+    bID INT NOT NULL,
+    data DATETIME NOT NULL,
+    FOREIGN KEY (vID) REFERENCES velisti(vID),
+    FOREIGN KEY (bID) REFERENCES barche(bID)
+);
