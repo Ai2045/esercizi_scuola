@@ -19,3 +19,18 @@ osservazione: non conviene tenere separato data e oraInizio
 π compagnia (spettacoli ⨝ spettacoli.codS = cartelloni.codS(σ nomeTeatro = 'Grande' ∧ data ≥ '01-10-2023' ∧ data ≤ '31-10-2023' (cartelloni))))
 π titolo, compagnia, durata, data, oraInizio (spettacoli ⨝ spettacoli.codS = cartelloni.codS(σ nomeTeatro = 'Arcimboldi' ∧ data ≥ '01-12-2023' ∧ data ≤ '31-12-2023' (cartelloni))))
 π nomeTeatro ((σ titolo = 'il lago dei cigni' (spettacoli)) ⨝ spettacoli.codS = cartelloni.codS (cartelloni))
+
+CREATE TABLE spettacoli(
+	  codS CHAR(10) PRIMARY KEY,
+    titolo VARCHAR(20) NOT NULL,
+    compagnia VARCHAR(30) NOT NULL,
+    durata TIME NOT NULL
+);
+
+CREATE TABLE cartelloni(
+	  data DATETIME PRIMARY KEY,
+    codS CHAR(10) NOT NULL,
+    nomeTeatro VARCHAR(20) NOT NULL,
+    FOREIGN KEY(cods) REFERENCES spettacoli(codS)
+);
+
