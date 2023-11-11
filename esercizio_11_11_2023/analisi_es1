@@ -1,11 +1,100 @@
-Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita,
-una eventuale data di scadenza e un testo che rappresenta la descrizione della cosa da fare. Ogni todo può avere uno o più tag,
-che sono una etichetta che rappresenta la tipologia di todo. Ogni utente del sistema avrà la possibilità di avere più todo da lui creati.
+Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita, una eventuale data di scadenza e un testo che rappresenta la descrizione della cosa da fare. Ogni todopuò avere uno o più tag, che sono una etichetta che rappresenta la tipologia di todo. Ogni utente del sistema avrà la possibilità di avere più todo da lui creati.
 
 schema logico
 
-utenti(PK:id, nominativo)
+utenti(PK:id, nome, cognome, data_nascita)
 todos(PK:id, data_inserimento, data_scadenza, descrizione, FK:utente_id)
 tags(PK:tipologia)
 todos_tags(FK:todo_id, FK:tag_tipologia)
 
+QUERY SQL
+Rappresentare l’elenco degli utenti 
+Selezionare gli utenti che non hanno inserito todo 
+L'elenco degli utenti che hanno Rossi come cognome 
+Gli utenti nati nel 1999 
+Le note create nel 2023 
+Le note senza scadenza 
+Le note con scadenza 
+Le note con un tag “lavoro” 
+Le note a cui non è associato nessun tag 
+Le note del 2023 scritte da utenti di nome Paolo 
+
+
+SELECT *
+FROM
+        utenti
+
+
+SELECT *
+FROM
+        utenti LEFT JOIN todos ON id = utente_id
+WHERE
+        id = NULL
+
+
+SELECT *
+FROM
+        utenti
+WHERE
+        cognome = 'Rossi'
+
+
+SELECT *
+FROM
+        utenti
+WHERE
+        data_nascita >= '01-01-1999' 
+        AND data_nascita <= '31-12-1999'
+
+
+SELECT *
+FROM
+        todos
+WHERE
+        data_inserimento >= '01-01-2023'
+        AND data_inserimento <= '31-12-2023'
+
+
+SELECT *
+FROM
+        todos
+WHERE
+        data_scadenza = NULL
+
+
+SELECT *
+FROM
+        todos
+WHERE
+        data_scadenza = NOT NULL
+
+
+SELECT
+        id, data_inserimento, data_scadenza, descrizione
+FROM
+        todos JOIN todos_tags ON id = todo_id
+        JOIN tag ON tag_tipologia = tipologia
+WHERE
+        tipologia = 'lavoro'
+
+
+SELECT 
+        id, data_inserimento, data_scadenza, descrizione
+FROM 
+        todos JOIN todos_tags ON id = todo_id
+WHERE
+        tag_tipologia = NULL
+
+
+SELECT 
+        id, data_inserimento, data_scadenza, descrizione
+FROM
+        utenti JOIN todos ON utenti.id = todos.id
+WHERE
+        data_inserimento >= '01-01-2023'
+        AND data_inserimento <= '31-12-2023'    
+        AND nome = 'Paolo'
+
+
+        
+        
