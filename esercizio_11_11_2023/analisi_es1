@@ -1,2 +1,11 @@
-Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita, una eventuale data di scadenza 
-e un testo che rappresenta la descrizione della cosa da fare. Ogni todo può avere uno o più tag, che sono una etichetta che rappresenta la tipologia di todo. Ogni utente del sistema avrà la possibilità di avere più todo da lui creati. 
+Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita,
+una eventuale data di scadenza e un testo che rappresenta la descrizione della cosa da fare. Ogni todo può avere uno o più tag,
+che sono una etichetta che rappresenta la tipologia di todo. Ogni utente del sistema avrà la possibilità di avere più todo da lui creati.
+
+schema logico
+
+utenti(PK:id, nominativo)
+todos(PK:id, data_inserimento, data_scadenza, descrizione, FK:utente_id)
+tags(PK:tipologia)
+todos_tags(FK:todo_id, FK:tag_tipologia)
+
