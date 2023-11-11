@@ -1,4 +1,7 @@
-Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita, una eventuale data di scadenza e un testo che rappresenta la descrizione della cosa da fare. Ogni todopuò avere uno o più tag, che sono una etichetta che rappresenta la tipologia di todo. Ogni utente del sistema avrà la possibilità di avere più todo da lui creati.
+Dopo creato schema concettuale e logico per una todolist multiutente dove ogni todo (cosa da fare) ha una data in cui è stata inserita,
+una eventuale data di scadenza e un testo che rappresenta la descrizione della cosa da fare.
+Ogni todo può avere uno o più tag, che sono una etichetta che rappresenta la tipologia di todo.
+Ogni utente del sistema avrà la possibilità di avere più todo da lui creati.
 
 schema logico
 
@@ -7,7 +10,40 @@ todos(PK:id, data_inserimento, data_scadenza, descrizione, FK:utente_id)
 tags(PK:tipologia)
 todos_tags(FK:todo_id, FK:tag_tipologia)
 
+
+schema fisico
+
+CREATE TABLE utenti (
+    id INT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
+    data_nascita DATE  NOT NULL
+);
+
+CREATE TABLE todos (
+    id INT PRIMARY KEY,
+    data_inserimento DATE NOT NULL,
+    data_scadenza DATE  NOT NULL,
+    descrizione VARCHAR(255)  NOT NULL,
+    utente_id INT,
+    FOREIGN KEY (utente_id) REFERENCES utenti(id)
+);
+
+CREATE TABLE tags (
+    tipologia VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE todos_tags (
+    todo_id INT,
+    tag_tipologia VARCHAR(20),
+    FOREIGN KEY (todo_id) REFERENCES todos(id),
+    FOREIGN KEY (tag_tipologia) REFERENCES tags(tipologia),
+);
+
+
+
 QUERY SQL
+
 Rappresentare l’elenco degli utenti 
 Selezionare gli utenti che non hanno inserito todo 
 L'elenco degli utenti che hanno Rossi come cognome 
