@@ -63,9 +63,9 @@ FROM
 
 SELECT *
 FROM
-        utenti LEFT JOIN todos ON id = utente_id
+        utenti LEFT JOIN todos ON utenti.id = utente_id
 WHERE
-        id = NULL
+        utenti.id = NULL
 
 
 SELECT *
@@ -108,22 +108,22 @@ WHERE
 SELECT
         id, data_inserimento, data_scadenza, descrizione
 FROM
-        todos JOIN todos_tags ON id = todo_id
+        todos JOIN todos_tags ON todos.id = todo_id
         JOIN tag ON tag_tipologia = tipologia
 WHERE
         tipologia = 'lavoro'
 
 
 SELECT 
-        id, data_inserimento, data_scadenza, descrizione
+        todos.id, data_inserimento, data_scadenza, descrizione
 FROM 
-        todos JOIN todos_tags ON id = todo_id
+        todos JOIN todos_tags ON todos.id = todo_id
 WHERE
         tag_tipologia = NULL
 
 
 SELECT 
-        id, data_inserimento, data_scadenza, descrizione
+        utenti.id, data_inserimento, data_scadenza, descrizione
 FROM
         utenti JOIN todos ON utenti.id = todos.id
 WHERE
